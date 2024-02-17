@@ -33,13 +33,13 @@ const LoginPage = () => {
         email: data.email,
         password: data.password,
       });
-      setErrorMessage(response.message);
+      setResponseMessage(response.message);
       //redirect after 2 seconds
       setTimeout(() => {
         router.push("/profile");
       }, 2000);
     } catch (error) {
-      setErrorMessage(error.message);
+      setResponseMessage(error.message);
     }
   };
 

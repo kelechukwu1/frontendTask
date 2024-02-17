@@ -35,7 +35,7 @@ const RegisterPage = () => {
         password: data.password,
       });
       //set email to local storage to verify email
-      localStorage.setItem("userEmail", data.email);
+      JSON.stringify(localStorage.setItem("userEmail", data.email));
       setResponseMessage(response.message);
       //redirect after 2 seconds
       setTimeout(() => {
@@ -50,7 +50,7 @@ const RegisterPage = () => {
   useEffect(() => {
     if (responseMessage) {
       const timer = setTimeout(() => {
-        setErrorMessage(null);
+        setResponseMessage(null);
       }, 3000);
       return () => clearTimeout(timer);
     }

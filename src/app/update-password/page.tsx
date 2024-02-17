@@ -28,7 +28,7 @@ const UpdatePasswordPage = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
     try {
-      const response = await api.post("/auth/update-password", {
+      const response = await api.patch("/auth/update-password", {
         email,
         password: data.password,
       });

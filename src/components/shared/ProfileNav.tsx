@@ -6,10 +6,10 @@ type ProfileNavNavProps = {
 
 const ProfileNav = ({ onSidebarItemClick }: ProfileNavNavProps) => {
   const navItems = [
-    { path: "/profile", icon: "PP", name: "Profile" },
+    { path: "/profile", icon: "P", name: "Profile" },
     {
       path: "",
-      icon: "BB",
+      icon: "B",
       name: "Buddies",
     },
     {
@@ -28,10 +28,10 @@ const ProfileNav = ({ onSidebarItemClick }: ProfileNavNavProps) => {
   };
   return (
     <header className="sticky top-0 w-full bg-blue-100 md:bg-transparent rounded-lg text-xl justify-center items-center flex transition-all duration-500 ease-in-out">
-      <nav className="w-full mx-auto items-center justify-center py-3">
+      <nav className="w-full mx-auto items-center justify-center md:py-3">
         <ul
-          className="py-5 flex lg:pb-0
-               justify-center md:justify-between items-center space-x-10 lg:mb-10"
+          className="py-5 flex 
+               justify-center md:justify-between items-center md:space-x-10 lg:mb-10"
         >
           <button
             className="text-green-500 hidden md:flex flex-row items-center justify-center"
@@ -39,7 +39,7 @@ const ProfileNav = ({ onSidebarItemClick }: ProfileNavNavProps) => {
           >
             Logo
           </button>
-          <div className="flex space-x-10">
+          <div className="flex space-x-4">
             {navItems.map((item) => (
               <li
                 key={item.name}

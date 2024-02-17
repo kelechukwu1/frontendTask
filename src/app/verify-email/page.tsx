@@ -11,19 +11,19 @@ const VerificationPage = () => {
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const token = searchParams.get("token") ?? undefined;
-  const storedEmail = localStorage.getItem("userEmail");
+  const storedEmail = JSON.stringify(localStorage.getItem("userEmail"));
 
   //make api call to verify email endpoint to verify the email finally
   const verifyEmail = async (token: string) => {
     try {
       const response = await api.post(`/auth/verify-email?token=${token}`);
-      responseMessage(response.message);
+      setResponseMessage(response.message);
       //redirect after 2 seconds
       setTimeout(() => {
         router.push("/login");
       }, 2000);
     } catch (error) {
-      responseMessage(error.message);
+      setResponseMessage(error.message);
     }
   };
 

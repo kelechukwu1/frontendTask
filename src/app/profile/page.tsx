@@ -3,21 +3,29 @@ import { ProfilePageLayout } from "@/layouts/ProfilePageLayout";
 import Image from "next/image";
 
 const ProfilePage = () => {
-  // dummy data for the profile
+  // dummy data for the profile, interests should be replaced with interests the user specified during registration
   const profileData = {
     name: "Ayoola Adewale",
     email: "ayoola@example.com",
     phoneNumber: "+234 802 345 6789",
     profilePicture: "/odumodu4.jpg",
     coverPicture: "/odumodu4.jpg",
-    interests: ["Football", "Basketball", "Cricket"],
+    interests: [
+      "Football",
+      "Basketball",
+      "Cricket",
+      "Cooking",
+      "Skating",
+      "Recording",
+      "Travel",
+    ],
   };
 
   return (
     <ProfilePageLayout>
       <div className="h-[calc(100vh-120px)] flex flex-col items-center justify-center space-y-6">
         {/* Profile Picture */}
-        <div className="relative w-24 h-24 rounded-full border-4 border-white overflow-hidden">
+        <div className="relative w-32 h-32 lg:w-48 lg:h-48 rounded-full border-4 border-white overflow-hidden">
           <Image
             src={profileData.profilePicture}
             alt="Profile"
@@ -34,15 +42,20 @@ const ProfilePage = () => {
         </div>
 
         {/* Interests */}
-        <div className="text-center">
+        <div className="text-center space-y-5 w-full">
           <h2 className="text-lg font-semibold">Interests</h2>
-          <ul className="flex space-x-2">
-            {profileData.interests.map((interest, index) => (
-              <li key={index} className="bg-gray-200 px-2 py-1 rounded-full">
-                {interest}
-              </li>
-            ))}
-          </ul>
+          <div className="flex justify-center">
+            <ul className="grid grid-cols-3 md:grid-cols-4 gap-4">
+              {profileData.interests.map((interest, index) => (
+                <li
+                  key={index}
+                  className="flex justify-center items-center bg-gray-200  py-2 px-4 rounded-full"
+                >
+                  {interest}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </ProfilePageLayout>

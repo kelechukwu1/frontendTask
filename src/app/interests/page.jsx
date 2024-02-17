@@ -1,6 +1,6 @@
 "use client";
 import { AuthPagesLayout } from "@/layouts/AuthPagesLayout";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "@/utils/api";
 
 const InterestPage = () => {
@@ -25,21 +25,16 @@ const InterestPage = () => {
     "Cooking",
     "Gardening",
     "Painting",
-    "Photography",
+    "Recording",
     "Reading",
     "Travel",
     "Yoga",
-    "Meditation",
     "Music",
-    "Photography",
-    "Cooking",
-    "Gardening",
     "Painting",
   ];
 
   const [selectedInterests, setSelectedInterests] = useState([]);
-  const [responseMessage, setResponseMessage] =
-    (useState < string) | (null > null);
+  const [responseMessage, setResponseMessage] = useState(null);
 
   // Toggle the selection of interests
   const handleInterestClick = (interest) => {
@@ -65,7 +60,16 @@ const InterestPage = () => {
     }
   };
 
-  const itemsPerRow = [3, 4, 7];
+  useEffect(() => {
+    if (responseMessage) {
+      const timer = setTimeout(() => {
+        setResponseMessage(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [responseMessage]);
+
+  const itemsPerRow = [12];
   return (
     <AuthPagesLayout>
       {responseMessage && (
@@ -76,7 +80,7 @@ const InterestPage = () => {
       <div className="flex flex-col items-center h-[calc(100vh-120px)] space-y-6 justify-center md:px-40">
         <h2 className="flex justify-center text-2xl ">Select Your Interests</h2>
         <div className="flex flex-wrap">
-          {interestsList.map((interest, index) => (
+          {interestsList.map((interest) => (
             <button
               key={interest}
               onClick={() => handleInterestClick(interest)}
