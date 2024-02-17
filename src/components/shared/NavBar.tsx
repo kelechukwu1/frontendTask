@@ -48,7 +48,7 @@ const Navbar = () => {
   ];
   return (
     <>
-      <header className="mb-5 md:mb-5">
+      <header className="mb-5">
         <div
           className={`md:flex justify-between items-center z-10 w-full transition-colors duration-300 ${
             scrolled ? "bg-transparent backdrop-filter backdrop-blur-md" : ""
@@ -62,13 +62,8 @@ const Navbar = () => {
                   open ? setOpen(!open) : !open;
                 }}
               >
-                <div className="font">
-                  <span className="text-xl transition ease-in-out duration-500 font-bold inline-block text-text-main fluid-4xl hover:-translate-y-1">
-                    Ayoola
-                  </span>
-                  <span className="hidden lg:inline-block text-xl font-bold transition ease-in-out duration-500 text-text-main fluid-4xl hover:-translate-y-1">
-                    Adewale
-                  </span>
+                <div className="text-green-500 text-xl transition ease-in-out duration-500 inline-block text-text-main fluid-4xl hover:-translate-y-1">
+                  Logo
                 </div>
               </Link>
             </div>
