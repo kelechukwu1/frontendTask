@@ -27,10 +27,10 @@ const ProfileNav = ({ onSidebarItemClick }: ProfileNavNavProps) => {
     onSidebarItemClick(name);
   };
   return (
-    <header className="sticky top-0 w-full bg-blue-100 md:bg-transparent rounded-lg text-xl justify-center items-center flex transition-all duration-500 ease-in-out">
+    <header className="fixed bottom-0 left-0 md:relative md:top-0 w-full flex rounded-t-lg bg-blue-100 md:bg-transparent rounded-lg text-xl justify-center items-center transition-all duration-500 ease-in-out">
       <nav className="w-full mx-auto items-center justify-center md:py-3">
         <ul
-          className="py-5 flex 
+          className="py-4 flex 
                justify-center md:justify-between items-center md:space-x-10 lg:mb-10"
         >
           <button
@@ -39,7 +39,7 @@ const ProfileNav = ({ onSidebarItemClick }: ProfileNavNavProps) => {
           >
             Logo
           </button>
-          <div className="flex space-x-4">
+          <div className="flex space-x-6">
             {navItems.map((item) => (
               <li
                 key={item.name}

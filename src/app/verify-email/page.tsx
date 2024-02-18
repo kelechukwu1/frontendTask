@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client";
 import { AuthPagesLayout } from "@/layouts/AuthPagesLayout";
 import { useRouter } from "next/navigation";
@@ -9,20 +8,24 @@ import api from "@/utils/api";
 const VerificationPage = () => {
   const router = useRouter();
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
+  const [verificationSuccess, setVerificationSuccess] = useState(false);
+
   const searchParams = useSearchParams();
   const token = searchParams.get("token") ?? undefined;
-  const storedEmail = JSON.stringify(localStorage.getItem("userEmail"));
+  // Check if localStorage is available
+  const storedEmail =
+    typeof window !== "undefined" ? localStorage.getItem("userEmail") : null;
 
   //make api call to verify email endpoint to verify the email finally
   const verifyEmail = async (token: string) => {
     try {
-      const response = await api.post(`/auth/verify-email?token=${token}`);
-      setResponseMessage(response.message);
+      await api.post(`/auth/verify-email`, { token });
+      setVerificationSuccess(true);
       //redirect after 2 seconds
       setTimeout(() => {
         router.push("/login");
       }, 2000);
-    } catch (error) {
+    } catch (error: any) {
       setResponseMessage(error.message);
     }
   };
@@ -30,18 +33,17 @@ const VerificationPage = () => {
   //opens the email app
   const handleContinueToEmail = () => {
     //this email should come from the local storage
-    window.location.href = storedEmail;
+    window.location.href = JSON.stringify(storedEmail);
   };
 
   //resend the verification email
   const handleResendEmail = async () => {
     try {
-      const response = await api.post("/auth/resend-email", {
+      await api.post("/auth/resend-email", {
         //this email should come from local storage
         email: storedEmail,
       });
-      setResponseMessage(response.message);
-    } catch (error) {
+    } catch (error: any) {
       setResponseMessage(error.message);
     }
   };
@@ -62,6 +64,11 @@ const VerificationPage = () => {
         </div>
       )}
 
+      {verificationSuccess && (
+        <div className="flex justify-center text-green-500 text-sm mt-2">
+          Email verification successful! You will be redirected shortly.
+        </div>
+      )}
       <div className="flex flex-col items-center justify-center w-full h-[calc(100vh-120px)]">
         <div className="space-y-2 text-center">
           <h1 className="text-xl font-medium">Verify your email</h1>

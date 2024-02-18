@@ -23,14 +23,16 @@ const ProfilePage = () => {
 
   return (
     <ProfilePageLayout>
-      <div className="h-[calc(100vh-120px)] flex flex-col items-center justify-center space-y-6">
+      <div className="min-h-screen  flex flex-col items-center justify-center space-y-6 mb-20 md:mb-0">
         {/* Profile Picture */}
         <div className="relative w-32 h-32 lg:w-48 lg:h-48 rounded-full border-4 border-white overflow-hidden">
           <Image
             src={profileData.profilePicture}
             alt="Profile"
-            layout="fill"
+            layout="responsive"
             objectFit="cover"
+            width={100}
+            height={100}
           />
         </div>
 

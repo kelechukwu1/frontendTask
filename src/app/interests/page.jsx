@@ -24,7 +24,6 @@ const InterestPage = () => {
     "Wrestling",
     "Cooking",
     "Gardening",
-    "Painting",
     "Recording",
     "Reading",
     "Travel",
@@ -49,12 +48,11 @@ const InterestPage = () => {
 
   const handleSubmit = () => async () => {
     try {
-      const response = await api.post("/auth/interests", {
-        selectedInterests,
+      await api.post("/auth/interests", {
+        interests: selectedInterests,
       });
       //redirect
       router.push("/verify-email");
-      setResponseMessage(response.message);
     } catch (error) {
       setResponseMessage(error.message);
     }

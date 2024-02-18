@@ -1,6 +1,4 @@
-// @ts-nocheck
 "use client";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
@@ -11,11 +9,13 @@ import api from "@/utils/api";
 import { useSearchParams } from "next/navigation";
 
 interface FormData {
-  email: string;
+  password: string;
 }
 
 const UpdatePasswordPage = () => {
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email") ?? undefined;
@@ -28,16 +28,16 @@ const UpdatePasswordPage = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
     try {
-      const response = await api.patch("/auth/update-password", {
+      await api.patch("/auth/update-password", {
         email,
         password: data.password,
       });
-      setResponseMessage(response.message);
+      setUpdateSuccess(true);
       //redirect after 2 seconds
       setTimeout(() => {
         router.push("/login");
       }, 2000);
-    } catch (error) {
+    } catch (error: any) {
       setResponseMessage(error.message);
     }
   };
@@ -45,7 +45,7 @@ const UpdatePasswordPage = () => {
   useEffect(() => {
     if (responseMessage) {
       const timer = setTimeout(() => {
-        setErrorMessage(null);
+        setResponseMessage(null);
       }, 3000);
       return () => clearTimeout(timer);
     }
@@ -56,6 +56,12 @@ const UpdatePasswordPage = () => {
       {responseMessage && (
         <div className="flex justify-center text-red-500 text-sm mt-2">
           {responseMessage}
+        </div>
+      )}
+
+      {updateSuccess && (
+        <div className="flex justify-center text-green-500 text-sm mt-2">
+          Password update successful! You will be redirected shortly.
         </div>
       )}
 
@@ -86,7 +92,7 @@ const UpdatePasswordPage = () => {
                 placeholder="Enter your new password"
                 className="border border-gray-400 focus:ring-1 focus:border-blue-500 outline-none rounded-md p-3 w-full"
               />
-              {errors.email && (
+              {errors.password && (
                 <div className="text-red-500 text-sm mt-2">
                   {errors.password.message}
                 </div>

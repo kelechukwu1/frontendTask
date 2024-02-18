@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState } from "react";
 import api from "@/utils/api";
 import { useRouter } from "next/navigation";
@@ -12,10 +11,9 @@ const SettingsAndPrivacy = () => {
   // Make API request to change password
   const handleChangePassword = async () => {
     try {
-      const response = await api.post("/update-password", {
-        newPassword,
+      await api.post("/settings/change-password", {
+        password: newPassword,
       });
-      setResponseMessage(response.message);
     } catch (error: any) {
       setResponseMessage(error.message);
     }
@@ -24,10 +22,9 @@ const SettingsAndPrivacy = () => {
   // Make API request to update email
   const handleUpdateEmail = async () => {
     try {
-      const response = await api.post("/update-email", {
-        newEmail,
+      await api.post("/settings/update-email", {
+        email: newEmail,
       });
-      setResponseMessage(response.message);
     } catch (error: any) {
       setResponseMessage(error.message);
     }
@@ -36,10 +33,9 @@ const SettingsAndPrivacy = () => {
   // Make API request to update username
   const handleUpdateUsername = async () => {
     try {
-      const response = await api.post("/update-username", {
-        newUsername,
+      await api.post("/settings/update-username", {
+        username: newUsername,
       });
-      setResponseMessage(response.message);
     } catch (error: any) {
       setResponseMessage(error.message);
     }
@@ -48,8 +44,7 @@ const SettingsAndPrivacy = () => {
   // Make API request for logout
   const handleLogout = async () => {
     try {
-      const response = await api.post("/logout");
-      setResponseMessage(response.message);
+      const response = await api.post("/auth/logout");
       //redirect after 2 seconds
       setTimeout(() => {
         router.push("/login");
@@ -67,7 +62,7 @@ const SettingsAndPrivacy = () => {
         </div>
       )}
 
-      <div className="w-full py-10 md:py-0 h-[calc(100vh-120px)] flex flex-col items-center justify-center space-y-6">
+      <div className="w-full py-10 md:py-0 h-[calc(100vh-120px)] flex flex-col items-center justify-center space-y-6 !mt-5 !mb-28 md:mb-0">
         <div className="space-y-8">
           <h1 className="text-3xl font-semibold flex justify-center">
             Settings & Privacy

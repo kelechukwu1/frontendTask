@@ -19,6 +19,7 @@ interface FormData {
 const RegisterPage = () => {
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
   const [phoneNumber, setPhoneNumber] = useState();
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const router = useRouter();
 
   const {
@@ -29,20 +30,20 @@ const RegisterPage = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
     try {
-      const response = await api.post("/auth/create", {
+      await api.post("/auth/create", {
         email: data.email,
         phoneNumber: phoneNumber,
         password: data.password,
       });
       //set email to local storage to verify email
       JSON.stringify(localStorage.setItem("userEmail", data.email));
-      setResponseMessage(response.message);
+      // Set registration success message to true
+      setRegistrationSuccess(true);
       //redirect after 2 seconds
       setTimeout(() => {
         router.push("/interests");
-      }, 2000);
-    } catch (error) {
-      console.error("Error:", error);
+      }, 1000);
+    } catch (error: any) {
       setResponseMessage(error.message);
     }
   };
@@ -63,6 +64,11 @@ const RegisterPage = () => {
         </div>
       )}
 
+      {registrationSuccess && (
+        <div className="flex justify-center text-green-500 text-sm mt-2">
+          Registration successful! You will be redirected shortly.
+        </div>
+      )}
       <form
         action=""
         className="flex flex-col items-center justify-center w-full h-[calc(100vh-120px)]"

@@ -19,6 +19,8 @@ interface FormData {
 const LoginPage = () => {
   const [isPhone, setIsPhone] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
+  const [loginSuccess, setLoginSuccess] = useState(false);
+
   const [phoneNumber, setPhoneNumber] = useState();
   const router = useRouter();
   const {
@@ -29,16 +31,16 @@ const LoginPage = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
     try {
-      const response = await api.post("/auth/login", {
+      await api.post("/auth/login", {
         email: data.email,
         password: data.password,
       });
-      setResponseMessage(response.message);
+      setLoginSuccess(true);
       //redirect after 2 seconds
       setTimeout(() => {
         router.push("/profile");
-      }, 2000);
-    } catch (error) {
+      }, 1000);
+    } catch (error: any) {
       setResponseMessage(error.message);
     }
   };
@@ -59,6 +61,11 @@ const LoginPage = () => {
         </div>
       )}
 
+      {loginSuccess && (
+        <div className="flex justify-center text-green-500 text-sm mt-2">
+          Login successful! You will be redirected shortly.
+        </div>
+      )}
       <form
         className="flex flex-col items-center justify-center w-full h-[calc(100vh-120px)]"
         onSubmit={(event) => {

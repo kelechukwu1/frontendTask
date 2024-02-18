@@ -35,14 +35,12 @@ export const ProfilePageLayout = ({
 
   return (
     <main className=" min-h-full scroll-smooth">
-      <div className="">
-        <div className="hidden md:flex">
-          <ProfileNav onSidebarItemClick={handleSidebarItemClick} />
-        </div>
-        <section>{renderSelectedComponent()}</section>
-        <div className="md:hidden">
-          <ProfileNav onSidebarItemClick={handleSidebarItemClick} />
-        </div>
+      <div className="hidden md:flex">
+        <ProfileNav onSidebarItemClick={handleSidebarItemClick} />
+      </div>
+      <section>{renderSelectedComponent()}</section>
+      <div className="md:hidden flex-1 overflow-y-auto">
+        <ProfileNav onSidebarItemClick={handleSidebarItemClick} />
       </div>
     </main>
   );

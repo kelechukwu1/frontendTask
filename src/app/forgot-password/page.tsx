@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -15,6 +14,8 @@ interface FormData {
 
 const ForgotPasswordPage = () => {
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
+  const [forgotSuccess, setForgotSuccess] = useState(false);
+
   const router = useRouter();
 
   const {
@@ -25,15 +26,15 @@ const ForgotPasswordPage = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
     try {
-      const response = await api.post("/auth/forgot-password", {
+      await api.post("/auth/forgot-password", {
         email: data.email,
       });
-      setResponseMessage(response.message);
+      setForgotSuccess(true);
       //redirect after 2 seconds
       setTimeout(() => {
         router.push("/update-password");
       }, 2000);
-    } catch (error) {
+    } catch (error: any) {
       setResponseMessage(error.message);
     }
   };
@@ -41,7 +42,7 @@ const ForgotPasswordPage = () => {
   useEffect(() => {
     if (responseMessage) {
       const timer = setTimeout(() => {
-        setErrorMessage(null);
+        setResponseMessage(null);
       }, 3000);
       return () => clearTimeout(timer);
     }
@@ -52,6 +53,11 @@ const ForgotPasswordPage = () => {
       {responseMessage && (
         <div className="flex justify-center text-red-500 text-sm mt-2">
           {responseMessage}
+        </div>
+      )}
+      {forgotSuccess && (
+        <div className="flex justify-center text-green-500 text-sm mt-2">
+          You will be redirected shortly.
         </div>
       )}
 
