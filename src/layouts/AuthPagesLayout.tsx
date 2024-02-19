@@ -1,4 +1,4 @@
-import Navbar from "@/components/shared/NavBar";
+import Navbar from "@/shared/NavBar";
 import { type ReactNode } from "react";
 
 type AuthPagesLayoutProps = {

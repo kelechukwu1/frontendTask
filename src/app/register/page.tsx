@@ -4,12 +4,14 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { regiterSchema } from "@/schema/validationSchema";
+import { registerSchema } from "@/schema/validationSchema";
 import { useRouter } from "next/navigation";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { AuthPagesLayout } from "@/layouts/AuthPagesLayout";
 import api from "@/utils/api";
+import FormInput from "@/shared/Input/FormInput";
+import Button from "@/shared/Button/Button";
 
 interface FormData {
   email: string;
@@ -25,8 +27,8 @@ const RegisterPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(regiterSchema) });
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>({ resolver: zodResolver(registerSchema) });
 
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
     try {
@@ -89,13 +91,15 @@ const RegisterPage = () => {
             <h3>
               Email <span className="font-semibold text-red-500">*</span>
             </h3>
-            <input
+
+            <FormInput
               {...register("email")}
               type="email"
               required
-              className="border border-gray-400 focus:ring-1 focus:border-blue-500 outline-none rounded-md p-3 w-full"
               placeholder="Your email address"
+              id="email"
             />
+
             {errors.email && (
               <div className="text-red-500 text-sm mt-2">
                 {errors.email.message}
@@ -130,13 +134,15 @@ const RegisterPage = () => {
             <h3>
               Password <span className="font-semibold text-red-500">*</span>
             </h3>
-            <input
+
+            <FormInput
               {...register("password")}
               type="password"
               required
-              className="border border-gray-400 focus:ring-1 focus:border-blue-500 outline-none rounded-md p-3 w-full"
-              placeholder="Minimum 8 chracters"
+              placeholder="Minimum 6 chracters"
+              id="password"
             />
+
             {errors.password && (
               <div className="text-red-500 text-sm mt-2">
                 {errors.password.message}
@@ -144,12 +150,12 @@ const RegisterPage = () => {
             )}
           </div>
 
-          <button
+          <Button
             type="submit"
-            className="text-white font-semibold bg-blue-600 w-full rounded-md p-3"
-          >
-            Register
-          </button>
+            extraClass="text-white font-semibold bg-blue-600 w-full rounded-md p-3"
+            text="Register"
+            isSubmitting={isSubmitting}
+          />
           <p className="text-center text-sm">
             Already have an account?&nbsp;
             <Link href="/login" className="font-medium text-blue-700">

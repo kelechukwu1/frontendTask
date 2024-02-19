@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import api from "@/utils/api";
 import { useRouter } from "next/navigation";
+import Button from "@/shared/Button/Button";
 
 const SettingsAndPrivacy = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -110,22 +111,20 @@ const SettingsAndPrivacy = () => {
               onChange={(e) => setNewUsername(e.target.value)}
               className="border border-gray-400 focus:ring-1 focus:border-blue-500 outline-none rounded-md p-3 w-full"
             />
-            <button
+            <Button
               onClick={handleUpdateUsername}
-              className="bg-blue-500 text-white py-3 rounded-md w-full"
-            >
-              Update Username
-            </button>
+              extraClass="bg-blue-500 text-white py-3 rounded-md w-full"
+              text="Update Username"
+            />
           </div>
 
           {/* Logout */}
           <div>
-            <button
+            <Button
               onClick={handleLogout}
-              className="bg-red-500 text-white p-3 rounded-md w-full"
-            >
-              Logout
-            </button>
+              extraClass="bg-red-500 text-white p-3 rounded-md w-full"
+              text="Logout"
+            />
           </div>
         </div>
       </div>

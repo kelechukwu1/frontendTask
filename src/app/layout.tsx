@@ -9,8 +9,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Technical Test",
-  description: "Built by Ayoola",
+  title: "Full stack assessment test",
+  description: "Built by Ayoola Adewale",
 };
 
 export default function RootLayout({

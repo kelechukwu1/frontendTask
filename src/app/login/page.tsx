@@ -10,6 +10,8 @@ import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { AuthPagesLayout } from "@/layouts/AuthPagesLayout";
 import api from "@/utils/api";
+import FormInput from "@/shared/Input/FormInput";
+import Button from "@/shared/Button/Button";
 
 interface FormData {
   email: string;
@@ -26,7 +28,7 @@ const LoginPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({ resolver: zodResolver(validationSchema) });
 
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
@@ -35,6 +37,7 @@ const LoginPage = () => {
         email: data.email,
         password: data.password,
       });
+
       setLoginSuccess(true);
       //redirect after 2 seconds
       setTimeout(() => {
@@ -53,6 +56,7 @@ const LoginPage = () => {
       return () => clearTimeout(timer);
     }
   }, [responseMessage]);
+
   return (
     <AuthPagesLayout>
       {responseMessage && (
@@ -91,11 +95,11 @@ const LoginPage = () => {
               <h3>
                 Email <span className="font-semibold text-red-500">*</span>
               </h3>
-              <input
+              <FormInput
                 {...register("email")}
                 type="email"
-                className="border border-gray-400 focus:ring-1 focus:border-blue-500 outline-none rounded-md p-3 w-full"
                 placeholder="Your email address"
+                id="email"
               />
               {errors.email && (
                 <div className="text-red-500 text-sm mt-2">
@@ -134,11 +138,11 @@ const LoginPage = () => {
             <h3>
               Password <span className="font-semibold text-red-500">*</span>
             </h3>
-            <input
+            <FormInput
               {...register("password")}
               type="password"
-              className="border border-gray-400 focus:ring-1 focus:border-blue-500 outline-none rounded-md p-3 w-full"
-              placeholder="Minimum 8 chracters"
+              placeholder="Minimum 6 chracters"
+              id="password"
             />
             {errors.password && (
               <div className="text-red-500 text-sm mt-2">
@@ -149,12 +153,13 @@ const LoginPage = () => {
           <Link href={"/forgot-password"} className="text-blue-700">
             Forgot password?
           </Link>
-          <button
+          <Button
             type="submit"
-            className="text-white font-semibold bg-blue-600 w-full rounded-md p-3 outline-none"
-          >
-            Login
-          </button>
+            extraClass="text-white font-semibold bg-blue-600 w-full rounded-md p-3 outline-none"
+            text="Login"
+            isSubmitting={isSubmitting}
+          />
+
           <p className="text-center text-sm">
             Don&apos;t have an account?&nbsp;
             <Link href="/register" className="font-medium text-blue-700">

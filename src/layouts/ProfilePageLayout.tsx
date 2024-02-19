@@ -1,7 +1,7 @@
 import Buddies from "@/components/Buddies";
 import Discover from "@/components/Discover";
 import SettingsAndPrivacy from "@/components/SettingsAndPrivacy";
-import ProfileNav from "@/components/shared/ProfileNav";
+import ProfileNav from "@/shared/ProfileNav";
 import { type ReactNode, useState } from "react";
 
 type ProfilePageLayoutProps = {

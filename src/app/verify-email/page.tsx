@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import api from "@/utils/api";
+import Button from "@/shared/Button/Button";
 
 const VerificationPage = () => {
   const router = useRouter();
@@ -75,30 +76,29 @@ const VerificationPage = () => {
           <div className="">
             {token ? (
               //if token is available
-              <button
+
+              <Button
+                extraClass="!mt-6 bg-blue-700 w-full rounded-md text-white py-3"
+                text="Verify Email"
                 onClick={() => verifyEmail(token)}
-                className="!mt-6 bg-blue-700 w-full rounded-md text-white py-3"
-              >
-                Verify Email
-              </button>
+              />
             ) : (
               // Token is not available, rendering buttons
               <>
                 <p className="text-md text-gray-500">
                   Please choose an option below to continue.
                 </p>
-                <button
+
+                <Button
+                  extraClass="!mt-6 bg-blue-700 w-full rounded-md text-white py-3"
+                  text="Check your email"
                   onClick={handleContinueToEmail}
-                  className="!mt-6 bg-blue-700 w-full rounded-md text-white py-3"
-                >
-                  Check your Email
-                </button>
-                <button
+                />
+                <Button
+                  extraClass="mt-2 bg-red-500 w-full rounded-md text-white py-3"
+                  text="Resend email"
                   onClick={handleResendEmail}
-                  className="mt-2 bg-red-500 w-full rounded-md text-white py-3"
-                >
-                  Resend Email
-                </button>
+                />
               </>
             )}
           </div>

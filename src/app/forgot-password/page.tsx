@@ -7,6 +7,8 @@ import { forgotPasswordSchema } from "@/schema/validationSchema";
 import { useRouter } from "next/navigation";
 import { AuthPagesLayout } from "@/layouts/AuthPagesLayout";
 import api from "@/utils/api";
+import FormInput from "@/shared/Input/FormInput";
+import Button from "@/shared/Button/Button";
 
 interface FormData {
   email: string;
@@ -21,7 +23,7 @@ const ForgotPasswordPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({ resolver: zodResolver(forgotPasswordSchema) });
 
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
@@ -83,11 +85,11 @@ const ForgotPasswordPage = () => {
               <label htmlFor="email" className="text-sm font-medium">
                 Email Address
               </label>
-              <input
+              <FormInput
                 {...register("email")}
                 type="email"
                 placeholder="Enter your email address"
-                className="border border-gray-400 focus:ring-1 focus:border-blue-500 outline-none rounded-md p-3 w-full"
+                id="email"
               />
               {errors.email && (
                 <div className="text-red-500 text-sm mt-2">
@@ -98,12 +100,12 @@ const ForgotPasswordPage = () => {
           </div>
 
           <div className="flex flex-col gap-4 text-center">
-            <button
+            <Button
               type="submit"
-              className="text-white font-semibold bg-blue-600 w-full rounded-md p-3"
-            >
-              Submit
-            </button>
+              extraClass="text-white font-semibold bg-blue-600 w-full rounded-md p-3"
+              text="Submit"
+              isSubmitting={isSubmitting}
+            />
             <Link href="/login" className="text-sm text-blue-700">
               Back to sign in page
             </Link>

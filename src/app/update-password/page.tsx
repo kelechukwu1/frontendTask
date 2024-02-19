@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { AuthPagesLayout } from "@/layouts/AuthPagesLayout";
 import api from "@/utils/api";
 import { useSearchParams } from "next/navigation";
+import FormInput from "@/shared/Input/FormInput";
+import Button from "@/shared/Button/Button";
 
 interface FormData {
   password: string;
@@ -86,12 +88,14 @@ const UpdatePasswordPage = () => {
               <label htmlFor="email" className="text-sm font-medium">
                 Password
               </label>
-              <input
+
+              <FormInput
                 {...register("password")}
                 type="password"
                 placeholder="Enter your new password"
-                className="border border-gray-400 focus:ring-1 focus:border-blue-500 outline-none rounded-md p-3 w-full"
+                id="password"
               />
+
               {errors.password && (
                 <div className="text-red-500 text-sm mt-2">
                   {errors.password.message}
@@ -101,12 +105,11 @@ const UpdatePasswordPage = () => {
           </div>
 
           <div className="flex flex-col gap-4 text-center">
-            <button
+            <Button
               type="submit"
-              className="text-white font-semibold bg-blue-600 w-full rounded-md p-3"
-            >
-              Submit
-            </button>
+              extraClass="text-white font-semibold bg-blue-600 w-full rounded-md p-3"
+              text="Submit"
+            />
           </div>
         </div>
       </form>
