@@ -1,4 +1,4 @@
-// @ts-nocheck
+//@ts-nocheck
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -12,16 +12,18 @@ import { AuthPagesLayout } from "@/layouts/AuthPagesLayout";
 import api from "@/utils/api";
 import FormInput from "@/shared/Input/FormInput";
 import Button from "@/shared/Button/Button";
+import { useUser } from "@/context/UserContext";
 
 interface FormData {
-  email: string;
-  phone: string;
+  email?: string;
+  phone?: string;
   password: string;
 }
 const LoginPage = () => {
   const [isPhone, setIsPhone] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const { user, updateUser } = useUser();
 
   const [phoneNumber, setPhoneNumber] = useState();
   const router = useRouter();
@@ -33,18 +35,29 @@ const LoginPage = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
     try {
-      await api.post("/auth/login", {
-        email: data.email,
+      const loginData: { password: string; email?: string; phone?: string } = {
         password: data.password,
-      });
+      };
 
+      // Include email or phone based on the user's choice
+      if (!isPhone) {
+        loginData.email = data.email;
+      } else {
+        loginData.phoneNumber = phoneNumber;
+      }
+
+      const response = await api.post("/auth/login", loginData);
+      updateUser(response.data);
       setLoginSuccess(true);
-      //redirect after 2 seconds
+      // redirect after 2 seconds
       setTimeout(() => {
         router.push("/profile");
       }, 1000);
     } catch (error: any) {
-      setResponseMessage(error.message);
+      setResponseMessage(error.response.data.message);
+    } finally {
+      setLoginSuccess(false);
+      setResponseMessage(null);
     }
   };
 

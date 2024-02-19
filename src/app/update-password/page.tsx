@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { forgotPasswordSchema } from "@/schema/validationSchema";
+import { resetPasswordSchema } from "@/schema/validationSchema";
 import { useRouter } from "next/navigation";
 import { AuthPagesLayout } from "@/layouts/AuthPagesLayout";
 import api from "@/utils/api";
@@ -20,19 +20,19 @@ const UpdatePasswordPage = () => {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams.get("email") ?? undefined;
+  const token = searchParams.get("token") ?? undefined;
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(forgotPasswordSchema) });
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>({ resolver: zodResolver(resetPasswordSchema) });
 
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
     try {
       await api.patch("/auth/update-password", {
-        email,
         password: data.password,
+        token,
       });
       setUpdateSuccess(true);
       //redirect after 2 seconds
@@ -40,7 +40,7 @@ const UpdatePasswordPage = () => {
         router.push("/login");
       }, 2000);
     } catch (error: any) {
-      setResponseMessage(error.message);
+      setResponseMessage(error.response.data.message);
     }
   };
 
@@ -109,6 +109,7 @@ const UpdatePasswordPage = () => {
               type="submit"
               extraClass="text-white font-semibold bg-blue-600 w-full rounded-md p-3"
               text="Submit"
+              isSubmitting={isSubmitting}
             />
           </div>
         </div>

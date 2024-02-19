@@ -37,7 +37,7 @@ const ForgotPasswordPage = () => {
         router.push("/update-password");
       }, 2000);
     } catch (error: any) {
-      setResponseMessage(error.message);
+      setResponseMessage(error.response.data.message);
     }
   };
 

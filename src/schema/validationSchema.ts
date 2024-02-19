@@ -20,3 +20,9 @@ export const forgotPasswordSchema = z.object({
     .trim()
     .toLowerCase(),
 });
+
+export const resetPasswordSchema = z.object({
+  password: z
+    .string()
+    .min(6, { message: "Password must be 6 or more characters long" }),
+});

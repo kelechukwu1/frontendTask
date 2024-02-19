@@ -27,7 +27,7 @@ const VerificationPage = () => {
         router.push("/login");
       }, 2000);
     } catch (error: any) {
-      setResponseMessage(error.message);
+      setResponseMessage(error.response.data.message);
     }
   };
 

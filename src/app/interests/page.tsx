@@ -1,9 +1,20 @@
 "use client";
-import { AuthPagesLayout } from "@/layouts/AuthPagesLayout";
 import React, { useEffect, useState } from "react";
 import api from "@/utils/api";
+import { useRouter } from "next/navigation";
 
-const InterestPage = () => {
+interface FormData {
+  email: string;
+  password: string;
+}
+interface InterestPageProps {
+  registrationData: FormData;
+  phoneNumber: string | undefined;
+}
+const InterestPage: React.FC<InterestPageProps> = ({
+  registrationData,
+  phoneNumber,
+}) => {
   const interestsList = [
     "Football",
     "Basketball",
@@ -34,9 +45,10 @@ const InterestPage = () => {
 
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [responseMessage, setResponseMessage] = useState(null);
-
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   // Toggle the selection of interests
-  const handleInterestClick = (interest) => {
+  const handleInterestClick = (interest: never) => {
     if (selectedInterests.includes(interest)) {
       setSelectedInterests(
         selectedInterests.filter((item) => item !== interest)
@@ -46,15 +58,22 @@ const InterestPage = () => {
     }
   };
 
-  const handleSubmit = () => async () => {
+  const handleSubmit = async () => {
+    setLoading(true);
     try {
-      await api.post("/auth/interests", {
+      await api.post("/auth/create", {
+        email: registrationData.email,
+        phoneNumber: phoneNumber,
+        password: registrationData.password,
         interests: selectedInterests,
       });
+
       //redirect
       router.push("/verify-email");
-    } catch (error) {
-      setResponseMessage(error.message);
+    } catch (error: any) {
+      setResponseMessage(error.response.data.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,7 +88,7 @@ const InterestPage = () => {
 
   const itemsPerRow = [12];
   return (
-    <AuthPagesLayout>
+    <>
       {responseMessage && (
         <div className="flex justify-center text-red-500 text-sm mt-2">
           {responseMessage}
@@ -81,9 +100,9 @@ const InterestPage = () => {
           {interestsList.map((interest) => (
             <button
               key={interest}
-              onClick={() => handleInterestClick(interest)}
+              onClick={() => handleInterestClick(interest as never)}
               style={{
-                backgroundColor: selectedInterests.includes(interest)
+                backgroundColor: selectedInterests.includes(interest as never)
                   ? "lightgreen"
                   : "lightgray",
                 padding: "8px",
@@ -97,13 +116,15 @@ const InterestPage = () => {
           ))}
         </div>
         <button
-          className="bg-blue-500 text-white font-bold py-2 px-10 rounded"
+          className={`${
+            loading && "opacity-50"
+          } bg-blue-500 text-white font-bold py-2 px-10 rounded`}
           onClick={handleSubmit}
         >
-          Submit
+          {loading ? "Submitting..." : "Submit"}
         </button>
       </div>
-    </AuthPagesLayout>
+    </>
   );
 };
 

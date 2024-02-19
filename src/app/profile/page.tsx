@@ -1,15 +1,17 @@
 "use client";
+import { useUser } from "@/context/UserContext";
 import { ProfilePageLayout } from "@/layouts/ProfilePageLayout";
 import Image from "next/image";
 
 const ProfilePage = () => {
+  const { user } = useUser();
+  console.log(user);
   // dummy data for the profile, interests should be replaced with interests the user specified during registration
   const profileData = {
     name: "Ayoola Adewale",
     email: "ayoola@example.com",
     phoneNumber: "+234 802 345 6789",
     profilePicture: "/odumodu4.jpg",
-    coverPicture: "/odumodu4.jpg",
     interests: [
       "Football",
       "Basketball",
@@ -39,8 +41,13 @@ const ProfilePage = () => {
         {/* Personal Details */}
         <div className="text-center">
           <h1 className="text-2xl font-semibold">{profileData.name}</h1>
-          <p className="text-gray-500">{profileData.email}</p>
-          <p className="text-gray-500">{profileData.phoneNumber}</p>
+          <p className="text-gray-500">Username: {user?.data?.username}</p>
+          <p className="text-gray-500">
+            {user?.data?.email || profileData.email}
+          </p>
+          <p className="text-gray-500">
+            {user?.data?.phoneNumber || profileData.phoneNumber}
+          </p>
         </div>
 
         {/* Interests */}
@@ -48,7 +55,7 @@ const ProfilePage = () => {
           <h2 className="text-lg font-semibold">Interests</h2>
           <div className="flex justify-center">
             <ul className="grid grid-cols-3 md:grid-cols-4 gap-4">
-              {profileData.interests.map((interest, index) => (
+              {user?.data?.interests.map((interest: any, index: any) => (
                 <li
                   key={index}
                   className="flex justify-center items-center bg-gray-200  py-2 px-4 rounded-full"
